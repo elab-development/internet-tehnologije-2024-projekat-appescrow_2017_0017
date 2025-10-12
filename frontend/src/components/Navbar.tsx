@@ -29,3 +29,4 @@ export default function Navbar() {
     </header>
   );
 }
+// Prikazuje linkove i dugme za logout ako je ulogovan, inače link za login
