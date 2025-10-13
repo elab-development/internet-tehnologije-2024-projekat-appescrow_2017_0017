@@ -2,12 +2,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
-  const { isAuthed, logout } = useAuth();
   const nav = useNavigate();
+  let authed = false;
+  let logout: (() => Promise<void>) | undefined;
+
+  try {
+    // ako AuthContext postoji:
+    const ctx = useAuth();
+    authed = ctx.isAuthed;
+    logout = ctx.logout;
+  } catch { /* ako još nema konteksta, samo ignoriši */ }
 
   async function onLogout() {
-    await logout();
-    nav("/login");
+    if (logout) { await logout(); nav("/login"); }
   }
 
   return (
@@ -18,15 +25,13 @@ export default function Navbar() {
         <Link to="/payments">Payments</Link>
         <Link to="/about">About</Link>
         <div className="ml-auto" />
-        {isAuthed ? (
-          <button className="px-3 py-1 rounded bg-black text-white" onClick={onLogout}>
-            Logout
-          </button>
+        {authed ? (
+          <button className="px-3 py-1 rounded bg-black text-white" onClick={onLogout}>Logout</button>
         ) : (
-          <Link className="underline" to="/login">Login</Link>
+          <Link to="/login" className="underline">Login</Link>
         )}
       </nav>
     </header>
   );
 }
-// Prikazuje linkove i dugme za logout ako je ulogovan, inače link za login
+// Navigacioni bar sa linkovima i logout dugmetom ako je korisnik ulogovan
