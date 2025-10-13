@@ -1,37 +1,43 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { clearToken, getToken } from "../lib/api";
 
 export default function Navbar() {
-  const nav = useNavigate();
-  let authed = false;
-  let logout: (() => Promise<void>) | undefined;
+  const navigate = useNavigate();
+  const isAuthed = !!getToken();
 
-  try {
-    // ako AuthContext postoji:
-    const ctx = useAuth();
-    authed = ctx.isAuthed;
-    logout = ctx.logout;
-  } catch { /* ako još nema konteksta, samo ignoriši */ }
-
-  async function onLogout() {
-    if (logout) { await logout(); nav("/login"); }
-  }
+const handleLogout = () => {
+    clearToken();
+    navigate("/login", { replace: true });
+    window.location.reload(); // 🔁 osveži app state
+}; 
 
   return (
-    <header className="bg-white shadow">
-      <nav className="max-w-5xl mx-auto p-4 flex gap-4 items-center">
-        <Link to="/">Home</Link>
-        <Link to="/escrows">Escrows</Link>
-        <Link to="/payments">Payments</Link>
-        <Link to="/about">About</Link>
-        <div className="ml-auto" />
-        {authed ? (
-          <button className="px-3 py-1 rounded bg-black text-white" onClick={onLogout}>Logout</button>
-        ) : (
-          <Link to="/login" className="underline">Login</Link>
+    <nav className="bg-white shadow">
+      <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+        <div className="space-x-4">
+          <Link to="/" className="text-gray-700 font-semibold hover:text-blue-600">
+            Home
+          </Link>
+          <Link to="/escrows" className="text-gray-700 font-semibold hover:text-blue-600">
+            Escrows
+          </Link>
+          <Link to="/payments" className="text-gray-700 font-semibold hover:text-blue-600">
+            Payments
+          </Link>
+          <Link to="/about" className="text-gray-700 font-semibold hover:text-blue-600">
+            About
+          </Link>
+        </div>
+
+        {isAuthed && (
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+          >
+            Logout
+          </button>
         )}
-      </nav>
-    </header>
+      </div>
+    </nav>
   );
 }
-// Navigacioni bar sa linkovima i logout dugmetom ako je korisnik ulogovan

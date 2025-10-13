@@ -1,6 +1,10 @@
 import { useState } from "react";
-import { api } from "../lib/api";
 import Breadcrumbs from "../components/Breadcrumbs";
+import Header from "../components/Header";
+import Card from "../components/ui/Card";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
+import { api } from "../lib/api";
 
 export default function Payments() {
   const [paymentId, setPaymentId] = useState("1");
@@ -24,24 +28,22 @@ export default function Payments() {
   }
 
   return (
-    <div className="max-w-xl mx-auto p-4">
+    <>
       <Breadcrumbs />
-      <h1 className="text-2xl font-semibold mb-4">Upload potvrde uz Payment</h1>
-
-      <form className="space-y-3" onSubmit={onUpload}>
-        <input
-          className="border rounded px-3 py-2 w-full"
-          placeholder="Payment ID"
-          value={paymentId}
-          onChange={(e)=>setPaymentId(e.target.value)}
-        />
-        <input type="file" onChange={(e)=>setFile(e.target.files?.[0] ?? null)} />
-        <button className="px-3 py-2 rounded bg-black text-white" type="submit">Upload</button>
-      </form>
-
-      {msg && <p className="mt-3 text-sm">{msg}</p>}
-      {url && <p className="mt-2 text-sm">URL: <a className="underline" href={url} target="_blank">{url}</a></p>}
-    </div>
+      <Header title="Payments" subtitle="Upload potvrde o uplati (PDF/JPG/PNG)" />
+      <Card>
+        <form className="grid md:grid-cols-3 gap-4 items-end" onSubmit={onUpload}>
+          <Input label="Payment ID" value={paymentId} onChange={e=>setPaymentId(e.target.value)} />
+          <label className="block">
+            <span className="block text-sm font-medium text-gray-700 mb-1">Fajl</span>
+            <input type="file" onChange={e=>setFile(e.target.files?.[0] ?? null)} />
+          </label>
+          <Button type="submit">Upload</Button>
+        </form>
+        {msg && <p className="text-sm mt-3">{msg}</p>}
+        {url && <p className="text-sm mt-1">URL: <a className="underline" href={url} target="_blank">{url}</a></p>}
+      </Card>
+    </>
   );
 }
-// Prikazuje formu za upload fajla kao potvrde uz određeni Payment ID
+// Prikazuje login formu sa opcijom brzog registrovanja

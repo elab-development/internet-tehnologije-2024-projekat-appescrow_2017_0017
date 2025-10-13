@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Card from "../components/ui/Card";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
 
 export default function Login() {
-  const [email, setEmail] = useState("admin@example.com"); // za brži test
+  const [email, setEmail] = useState("admin@example.com");
   const [password, setPassword] = useState("password");
   const [err, setErr] = useState<string>("");
   const nav = useNavigate();
@@ -31,30 +34,24 @@ export default function Login() {
   }
 
   return (
-    <div className="max-w-sm mx-auto mt-16">
-      <h1 className="text-2xl mb-4">Sign in</h1>
-      <form onSubmit={onSubmit} className="space-y-3">
-        <input
-          className="border rounded px-3 py-2 w-full"
-          placeholder="Email"
-          value={email}
-          onChange={e=>setEmail(e.target.value)}
-        />
-        <input
-          className="border rounded px-3 py-2 w-full"
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={e=>setPassword(e.target.value)}
-        />
-        {err && <p className="text-red-600 text-sm">{err}</p>}
-        <button className="px-4 py-2 rounded bg-black text-white">Login</button>
-      </form>
+    <div className="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 className="text-3xl font-semibold">Welcome back</h1>
+        <p className="text-gray-600 mt-2">Sign in to manage your escrow transactions and payments.</p>
+      </div>
 
-      <button className="mt-3 text-sm underline" onClick={onQuickRegister}>
-        Nemam nalog — registruj me brzo (dev)
-      </button>
+      <Card className="p-6">
+        <form onSubmit={onSubmit} className="space-y-4">
+          <Input label="Email" value={email} onChange={e=>setEmail(e.target.value)} />
+          <Input label="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)} />
+          {err && <p className="text-sm text-red-600">{err}</p>}
+          <div className="flex gap-2">
+            <Button type="submit">Login</Button>
+            <Button type="button" variant="secondary" onClick={onQuickRegister}>Quick register</Button>
+          </div>
+        </form>
+      </Card>
     </div>
   );
 }
-// (koristi email i password iz inputa)
+// Prikazuje login formu sa opcijom brzog registrovanja
