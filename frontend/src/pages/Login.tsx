@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import Card from "../components/ui/Card";
-import Input from "../components/ui/Input";
-import Button from "../components/ui/Button";
+import { Card, Form, Button, Row, Col, Alert } from "react-bootstrap";
 
 export default function Login() {
   const [email, setEmail] = useState("admin@example.com");
@@ -34,24 +32,30 @@ export default function Login() {
   }
 
   return (
-    <div className="grid md:grid-cols-2 gap-8 items-center">
-      <div>
-        <h1 className="text-3xl font-semibold">Welcome back</h1>
-        <p className="text-gray-600 mt-2">Sign in to manage your escrow transactions and payments.</p>
-      </div>
-
-      <Card className="p-6">
-        <form onSubmit={onSubmit} className="space-y-4">
-          <Input label="Email" value={email} onChange={e=>setEmail(e.target.value)} />
-          <Input label="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)} />
-          {err && <p className="text-sm text-red-600">{err}</p>}
-          <div className="flex gap-2">
-            <Button type="submit">Login</Button>
-            <Button type="button" variant="secondary" onClick={onQuickRegister}>Quick register</Button>
-          </div>
-        </form>
-      </Card>
-    </div>
+    <Row className="justify-content-md-center">
+      <Col md={6} lg={5}>
+        <h1 className="mb-3">Sign in</h1>
+        <Card body>
+          <Form onSubmit={onSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control value={email} onChange={(e)=>setEmail(e.target.value)} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" value={password} onChange={(e)=>setPassword(e.target.value)} />
+            </Form.Group>
+            {err && <Alert variant="danger" className="py-2">{err}</Alert>}
+            <div className="d-flex gap-2">
+              <Button type="submit">Login</Button>
+              <Button variant="outline-secondary" type="button" onClick={onQuickRegister}>
+                Quick register
+              </Button>
+            </div>
+          </Form>
+        </Card>
+      </Col>
+    </Row>
   );
 }
 // Prikazuje login formu sa opcijom brzog registrovanja

@@ -1,10 +1,6 @@
 import { useState } from "react";
-import Breadcrumbs from "../components/Breadcrumbs";
-import Header from "../components/Header";
-import Card from "../components/ui/Card";
-import Input from "../components/ui/Input";
-import Button from "../components/ui/Button";
 import { api } from "../lib/api";
+import { Card, Form, Button, Row, Col, Alert } from "react-bootstrap";
 
 export default function Payments() {
   const [paymentId, setPaymentId] = useState("1");
@@ -28,22 +24,24 @@ export default function Payments() {
   }
 
   return (
-    <>
-      <Breadcrumbs />
-      <Header title="Payments" subtitle="Upload potvrde o uplati (PDF/JPG/PNG)" />
-      <Card>
-        <form className="grid md:grid-cols-3 gap-4 items-end" onSubmit={onUpload}>
-          <Input label="Payment ID" value={paymentId} onChange={e=>setPaymentId(e.target.value)} />
-          <label className="block">
-            <span className="block text-sm font-medium text-gray-700 mb-1">Fajl</span>
-            <input type="file" onChange={e=>setFile(e.target.files?.[0] ?? null)} />
-          </label>
-          <Button type="submit">Upload</Button>
-        </form>
-        {msg && <p className="text-sm mt-3">{msg}</p>}
-        {url && <p className="text-sm mt-1">URL: <a className="underline" href={url} target="_blank">{url}</a></p>}
-      </Card>
-    </>
+    <Card body>
+      <Form onSubmit={onUpload}>
+        <Row className="g-3 align-items-end">
+          <Col md={3}>
+            <Form.Label>Payment ID</Form.Label>
+            <Form.Control value={paymentId} onChange={(e)=>setPaymentId(e.target.value)} />
+          </Col>
+          <Col md={6}>
+            <Form.Label>Fajl</Form.Label>
+            <Form.Control type="file" onChange={(e)=>setFile(e.target.files?.[0] ?? null)} />
+          </Col>
+          <Col md="auto">
+            <Button type="submit">Upload</Button>
+          </Col>
+        </Row>
+      </Form>
+      {msg && <Alert variant="success" className="mt-3">{msg}</Alert>}
+      {url && <div className="mt-2 small">URL: <a href={url} target="_blank">{url}</a></div>}
+    </Card>
   );
 }
-// Prikazuje login formu sa opcijom brzog registrovanja

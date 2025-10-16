@@ -1,14 +1,15 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import AppNavbar from "./components/Navbar";
+import { Container } from "react-bootstrap";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      <div className="max-w-6xl mx-auto px-4 py-6">
+    <>
+      <AppNavbar />
+      <Container className="py-4">
         <Outlet />
-      </div>
-    </div>
+      </Container>
+    </>
   );
 }
-// Glavna aplikaciona komponenta koja uključuje navigacioni meni i prostor za prikaz ruta
+// Glavna aplikaciona komponenta koja uključuje navigacioni bar i prostor za prikaz stranica
