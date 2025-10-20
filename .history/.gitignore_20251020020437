@@ -1,0 +1,57 @@
+# Backend
+backend/node_modules/
+backend/.env
+backend/dist/
+backend/uploads/
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+```
+
+Your final `.gitignore` should look like this:
+```
+node_modules
+.env
+
+# Hardhat files
+cache/
+artifacts/
+typechain-types/
+
+# TypeChain files
+/typechain
+/typechain-types
+
+# solidity-coverage files
+/coverage
+/coverage.json
+
+# Hardhat Ignition default folder for deployments against a local node
+ignition/deployments/chain-31337
+
+# Backend
+backend/node_modules/
+backend/.env
+backend/dist/
+backend/uploads/
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
