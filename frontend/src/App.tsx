@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import CreateEscrow from './pages/CreateEscrow';
+import BrowseEscrows from './pages/BrowseEscrows';
+import EscrowDetail from './pages/EscrowDetail';
 
 // Protected Route wrapper
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -94,6 +96,8 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route path="/escrows" element={<BrowseEscrows />} />
+              <Route path="/escrows/:id" element={<EscrowDetail />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
