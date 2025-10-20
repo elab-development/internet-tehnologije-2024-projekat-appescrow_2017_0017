@@ -55,3 +55,6 @@ npm-debug.log*
 # OS
 .DS_Store
 Thumbs.db
+
+# VS Code Local History
+.history/
